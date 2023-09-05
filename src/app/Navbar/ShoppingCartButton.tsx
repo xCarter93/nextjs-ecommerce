@@ -2,6 +2,7 @@
 
 import { ShoppingCart } from "@/lib/db/cart";
 import { formatPrice } from "@/lib/format";
+import Image from "next/image";
 import Link from "next/link";
 
 interface ShoppingCartButtonProps {
@@ -44,6 +45,21 @@ export default function ShoppingCartButton({ cart }: ShoppingCartButtonProps) {
 				className="card dropdown-content card-compact mt-3 w-52 bg-base-100 shadow z-30"
 			>
 				<div className="card-body">
+					{cart?.items.map((item, index) => (
+						<div key={index} className="flex items-center mb-4">
+							<Image
+								src={item.product.imageUrl}
+								alt={item.product.name}
+								height={20}
+								width={20}
+								className="w-12 h-12 mr-4 rounded-full"
+							/>
+							<div className="flex justify-between w-full text-xs">
+								<span>{item.product.name}</span>
+								<span className="flex items-center">{item.quantity}</span>
+							</div>
+						</div>
+					))}
 					<span className="text-lg font-bold">{cart?.size || 0} items</span>
 					<span className="text-info">
 						Subtotal: {formatPrice(cart?.subtotal || 0)}
